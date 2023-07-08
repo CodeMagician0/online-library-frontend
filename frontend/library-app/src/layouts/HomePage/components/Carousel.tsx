@@ -1,5 +1,5 @@
 import { ReturnBook } from "./ReturnBook";
-import BookModel from "../../../models/BookModel";
+import BookModel, { createBook } from "../../../models/BookModel";
 import { useEffect, useState } from "react";
 import { SpinnerLoading } from "../../Utils/SpinnerLoading";
 
@@ -24,16 +24,18 @@ export const Carousel = () => {
       const loadedBooks: BookModel[] = [];
 
       for (const key in rspData) {
-        loadedBooks.push({
-          id: rspData[key].id,
-          title: rspData[key].title,
-          author: rspData[key].author,
-          description: rspData[key].description,
-          copies: rspData[key].copies,
-          copiesAvailable: rspData[key].copiesAvailable,
-          category: rspData[key].category,
-          img: rspData[key].img,
-        });
+        loadedBooks.push(
+          createBook(
+            rspData[key].id,
+            rspData[key].title,
+            rspData[key].author,
+            rspData[key].description,
+            rspData[key].copies,
+            rspData[key].copiesAvailable,
+            rspData[key].category,
+            rspData[key].img
+          )
+        );
       }
 
       setBooks(loadedBooks);

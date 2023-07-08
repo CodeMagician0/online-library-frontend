@@ -29,4 +29,26 @@ class BookModel {
   }
 }
 
+export function createBook(
+  id: number,
+  title: string,
+  author: string,
+  description: string,
+  copies: number,
+  copiesAvailable: number,
+  category: string,
+  img: string
+): BookModel {
+  return {
+    id: id,
+    title: title,
+    author: author,
+    description: description,
+    copies: copies,
+    copiesAvailable: copiesAvailable,
+    category: category,
+    img: img,
+  };
+}
+
 export default BookModel;
