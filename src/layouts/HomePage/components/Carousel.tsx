@@ -11,7 +11,7 @@ export const Carousel = () => {
   // triggered after the first time render, and everytime the passed-in state changes.
   useEffect(() => {
     const fetchBooks = async () => {
-      const baseUrl: string = "http://localhost:8080/api/book";
+      const baseUrl: string = "http://localhost:8080/api/books";
       const url: string = `${baseUrl}?page=0&size=9`;
       const rsp = await fetch(url);
       if (!rsp.ok) {
