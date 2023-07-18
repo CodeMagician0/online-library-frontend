@@ -9,8 +9,8 @@ export const App = () => {
   return (
     <div>
       <Navbar />
-      {/* <HomePage /> */}
-      <SearchBookPage />
+      <HomePage />
+      {/* <SearchBookPage /> */}
       <Footer />
     </div>
   );
