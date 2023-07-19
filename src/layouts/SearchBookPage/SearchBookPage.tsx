@@ -61,7 +61,7 @@ export const SearchBookPage = () => {
       setIsLoading(false);
       setHttopError(error.message);
     });
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, [currentPage, searchUrl]);
 
   if (isLoading) {
