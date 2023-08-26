@@ -65,3 +65,9 @@ background-color: #0e76a8 ;
   .custom-search-bg {
     background-color: #0e69a8; /* Replace with your desired color */
   }
+
+  .dropdown-toggle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
