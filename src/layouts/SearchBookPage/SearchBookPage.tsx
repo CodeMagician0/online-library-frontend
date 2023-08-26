@@ -49,7 +49,8 @@ export const SearchBookPage = () => {
       if (searchUrl === "") {
         url = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
       } else {
-        url = searchUrl;
+        let searchWithPage = searchUrl.replace('<pageNumber>', `${currentPage - 1}`);
+        url = searchWithPage;
       }
 
       const rsp = await fetch(url);
@@ -108,7 +109,7 @@ export const SearchBookPage = () => {
 
     const baseUrl: string = BOOK_ROUTES.searchBook;
     let url: string =
-      baseUrl + `?&page=${currentPage - 1}&size=${booksPerPage}`;
+      baseUrl + `?&page=<pageNumber>&size=${booksPerPage}`;
 
     if (search !== "") {
       url += `&title=${search}`;
@@ -118,13 +119,11 @@ export const SearchBookPage = () => {
       url += `&category=${currCategory}`;
     }
 
-    console.log(`searchUrl: ${url}`);
     setSearchUrl(url);
   };
 
   const categoryField = (value: string) => {
     setCurrCategory(value);
-    searchHandleChange();
   };
 
   const currLastIdx: number = currentPage * booksPerPage;
@@ -173,6 +172,11 @@ export const SearchBookPage = () => {
               placeholder="Search for title"
               aria-labelledby="Search"
               onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  searchHandleChange();
+                }
+              }}
             />
             <div className="input-group-append" style={{ width: '20%' }} >
               <button
