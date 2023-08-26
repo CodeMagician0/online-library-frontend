@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export const Carousel = () => {
   const [books, setBooks] = useState<BookModel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [httpError, setHttopError] = useState(null);
+  const [httpError, setHttpError] = useState(null);
 
   // triggered after the first time render, and everytime the passed-in state changes.
   useEffect(() => {
@@ -44,7 +44,7 @@ export const Carousel = () => {
     };
     fetchBooks().catch((error: any) => {
       setIsLoading(false);
-      setHttopError(error.message);
+      setHttpError(error.message);
     });
   }, []);
 
