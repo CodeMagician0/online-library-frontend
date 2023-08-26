@@ -52,3 +52,16 @@ background-color: #0e76a8 ;
     pointer-events: none;
     cursor: default;
  }
+
+ .square-btn {
+    border-radius: 0; /* Remove border radius to make it square */
+  }
+
+  /* Custom background colors */
+  .custom-dropdown-bg {
+    background-color: #cccccc; /* Replace with your desired color */
+  }
+  
+  .custom-search-bg {
+    background-color: #0e69a8; /* Replace with your desired color */
+  }

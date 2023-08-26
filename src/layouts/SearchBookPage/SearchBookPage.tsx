@@ -6,9 +6,10 @@ import { Pagination } from "../Utils/Pagination";
 import { BOOK_ROUTES } from "../../services/apis";
 
 export const SearchBookPage = () => {
+  const ALL_CATEGORIES = "All Categories";
   const [categories, setCategories] = useState<string[]>([]);
   const [isCategoryLoading, setIsCategoryLoading] = useState(true);
-  const [currCategory, setCurrCategory] = useState("All");
+  const [currCategory, setCurrCategory] = useState(ALL_CATEGORIES);
   const [books, setBooks] = useState<BookModel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(null);
@@ -103,13 +104,27 @@ export const SearchBookPage = () => {
   }
 
   const searchHandleChange = () => {
-    if (search === "" && currCategory === "All") {
-      setSearchUrl("");
-    } else {
-      setSearchUrl(
-        `${BOOK_ROUTES.searchBook}?title=${search}&category=${currCategory}&page=0&size=${booksPerPage}`
-      );
+    setCurrentPage(1);
+
+    const baseUrl: string = BOOK_ROUTES.searchBook;
+    let url: string =
+      baseUrl + `?&page=${currentPage - 1}&size=${booksPerPage}`;
+
+    if (search !== "") {
+      url += `&title=${search}`;
     }
+
+    if (currCategory !== ALL_CATEGORIES) {
+      url += `&category=${currCategory}`;
+    }
+
+    console.log(`searchUrl: ${url}`);
+    setSearchUrl(url);
+  };
+
+  const categoryField = (value: string) => {
+    setCurrCategory(value);
+    searchHandleChange();
   };
 
   const currLastIdx: number = currentPage * booksPerPage;
@@ -126,51 +141,56 @@ export const SearchBookPage = () => {
     <div>
       <div className="container">
         <div className="row mt-5">
-          <div className="col-6">
-            <div className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-labelledby="Search"
-                onChange={(e) => setSearch(e.target.value)}
-              />
+        <div className="col-md-10">
+          <div className="input-group mb-3">
+            <div className="input-group-prepend" style={{ width: '15%' }}>
               <button
-                className="btn btn-outline-success"
-                onClick={() => searchHandleChange()}
-              >
-                Search
-              </button>
-            </div>
-          </div>
-          <div className="col-4">
-            <div className="dropdown">
-              <button
-                className="btn btn-secondary dropdown-toggle"
+                className="btn custom-dropdown-bg square-btn  dropdown-toggle w-100"
                 type="button"
-                id="dropdownMenuButton1"
                 data-bs-toggle="dropdown"
-                aria-expaneded="false"
+                aria-expanded="false"
               >
                 {currCategory}
               </button>
-              <ul
-                className="dropdown-menu"
-                aria-labelledby="dropdownMenuButton1"
-              >
-                <li onClick={() => setCurrCategory("All")}>
+              <ul className="dropdown-menu">
+                <li onClick={() => categoryField(ALL_CATEGORIES)}>
                   <a className="dropdown-item" href="#">
-                    All
+                    All Categories
                   </a>
                 </li>
                 {categories.map((category) => (
-                  <li onClick={() => setCurrCategory(category)}>
+                  <li onClick={() => categoryField(category)} key={category}>
                     <a className="dropdown-item" href="#">
                       {category}
                     </a>
                   </li>
                 ))}
               </ul>
+            </div>
+            <input
+              className="form-control"
+              type="search"
+              placeholder="Search for title"
+              aria-labelledby="Search"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <div className="input-group-append" style={{ width: '20%' }} >
+              <button
+                className="btn custom-search-bg square-btn btn-secondary w-100"
+                type="button"
+                onClick={() => searchHandleChange()}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-search"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -206,6 +226,7 @@ export const SearchBookPage = () => {
             paginate={paginate}
           />
         )}
+        </div>
       </div>
     </div>
   );
