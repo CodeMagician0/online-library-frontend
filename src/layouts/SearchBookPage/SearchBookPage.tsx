@@ -3,7 +3,7 @@ import BookModel, { createBook } from "../../models/BookModel";
 import { SpinnerLoading } from "../Utils/SpinnerLoading";
 import { SearchBook } from "./components/SearchBook";
 import { Pagination } from "../Utils/Pagination";
-import { BOOK_ROUTES } from "../../services/apis";
+import { BOOK_ROUTES } from "../../services/Apis";
 
 export const SearchBookPage = () => {
   const ALL_CATEGORIES = "All Categories";
@@ -49,7 +49,10 @@ export const SearchBookPage = () => {
       if (searchUrl === "") {
         url = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
       } else {
-        let searchWithPage = searchUrl.replace('<pageNumber>', `${currentPage - 1}`);
+        let searchWithPage = searchUrl.replace(
+          "<pageNumber>",
+          `${currentPage - 1}`
+        );
         url = searchWithPage;
       }
 
@@ -108,8 +111,7 @@ export const SearchBookPage = () => {
     setCurrentPage(1);
 
     const baseUrl: string = BOOK_ROUTES.searchBook;
-    let url: string =
-      baseUrl + `?&page=<pageNumber>&size=${booksPerPage}`;
+    let url: string = baseUrl + `?&page=<pageNumber>&size=${booksPerPage}`;
 
     if (search !== "") {
       url += `&title=${search}`;
@@ -140,96 +142,96 @@ export const SearchBookPage = () => {
     <div>
       <div className="container">
         <div className="row mt-5">
-        <div className="col-md-10">
-          <div className="input-group mb-3">
-            <div className="input-group-prepend" style={{ width: '15%' }}>
-              <button
-                className="btn custom-dropdown-bg square-btn  dropdown-toggle w-100"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                {currCategory}
-              </button>
-              <ul className="dropdown-menu">
-                <li onClick={() => categoryField(ALL_CATEGORIES)}>
-                  <a className="dropdown-item" href="#">
-                    All Categories
-                  </a>
-                </li>
-                {categories.map((category) => (
-                  <li onClick={() => categoryField(category)} key={category}>
+          <div className="col-md-10">
+            <div className="input-group mb-3">
+              <div className="input-group-prepend" style={{ width: "15%" }}>
+                <button
+                  className="btn custom-dropdown-bg square-btn  dropdown-toggle w-100"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {currCategory}
+                </button>
+                <ul className="dropdown-menu">
+                  <li onClick={() => categoryField(ALL_CATEGORIES)}>
                     <a className="dropdown-item" href="#">
-                      {category}
+                      All Categories
                     </a>
                   </li>
-                ))}
-              </ul>
-            </div>
-            <input
-              className="form-control"
-              type="search"
-              placeholder="Search for title"
-              aria-labelledby="Search"
-              onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  searchHandleChange();
-                }
-              }}
-            />
-            <div className="input-group-append" style={{ width: '20%' }} >
-              <button
-                className="btn custom-search-bg square-btn btn-secondary w-100"
-                type="button"
-                onClick={() => searchHandleChange()}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-search"
-                  viewBox="0 0 16 16"
+                  {categories.map((category) => (
+                    <li onClick={() => categoryField(category)} key={category}>
+                      <a className="dropdown-item" href="#">
+                        {category}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <input
+                className="form-control"
+                type="search"
+                placeholder="Search for title"
+                aria-labelledby="Search"
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    searchHandleChange();
+                  }
+                }}
+              />
+              <div className="input-group-append" style={{ width: "20%" }}>
+                <button
+                  className="btn custom-search-bg square-btn btn-secondary w-100"
+                  type="button"
+                  onClick={() => searchHandleChange()}
                 >
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                </svg>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-search"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        {totalAmountOfBooks > 0 ? (
-          <>
-            <div className="mt-3">
-              <h5>Number of results: ({totalAmountOfBooks})</h5>
+          {totalAmountOfBooks > 0 ? (
+            <>
+              <div className="mt-3">
+                <h5>Number of results: ({totalAmountOfBooks})</h5>
+              </div>
+              <p>
+                {indexOfFirstBook} to {indexOfLastBook} of {totalAmountOfBooks}{" "}
+                items:
+              </p>
+              {books.map((book) => (
+                <SearchBook book={book} key={book.id} />
+              ))}
+            </>
+          ) : (
+            <div className="m-5">
+              <h3>Can't find what you are looking for?</h3>
+              <a
+                type="button"
+                className="btn main-color btn-md px-4 me-md-2 fw-bold text-white"
+                href="#"
+              >
+                Library Services
+              </a>
             </div>
-            <p>
-              {indexOfFirstBook} to {indexOfLastBook} of {totalAmountOfBooks}{" "}
-              items:
-            </p>
-            {books.map((book) => (
-              <SearchBook book={book} key={book.id} />
-            ))}
-          </>
-        ) : (
-          <div className="m-5">
-            <h3>Can't find what you are looking for?</h3>
-            <a
-              type="button"
-              className="btn main-color btn-md px-4 me-md-2 fw-bold text-white"
-              href="#"
-            >
-              Library Services
-            </a>
-          </div>
-        )}
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            paginate={paginate}
-          />
-        )}
+          )}
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              paginate={paginate}
+            />
+          )}
         </div>
       </div>
     </div>

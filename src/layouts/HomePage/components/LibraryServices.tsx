@@ -1,4 +1,10 @@
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import AuthContext from "../../../context/AuthContext";
+
 export const LibraryServices = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <div className="container my-5">
       <div className="row p-4 align-items-center border shadow-lg">
@@ -11,9 +17,21 @@ export const LibraryServices = () => {
             admin's a personal message!
           </p>
           <div className="d-grid gap-2 justify-content-md-start mb-4 mb-lg-3">
-            <a className="btn main-color btn-lg text-white" href="#">
-              Sign up
-            </a>
+            {user ? (
+              <Link
+                className="btn mt-2 main-color btn-lg text-white"
+                to="/message"
+              >
+                Library Services
+              </Link>
+            ) : (
+              <Link
+                className="btn mt-2 main-color btn-lg text-white"
+                to="/login"
+              >
+                Sign up
+              </Link>
+            )}
           </div>
         </div>
         <div className="col-lg-4 offset-lg-1 shadow-lg lost-image"></div>

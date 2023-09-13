@@ -1,4 +1,10 @@
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import AuthContext from "../../../context/AuthContext";
+
 export const Heros = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <div>
       <div className="d-none d-lg-block">
@@ -14,9 +20,22 @@ export const Heros = () => {
                 Whether it is to learn a new skill or grow within one we will be
                 able to provide the top content for you!
               </p>
-              <a href="#" className="btn main-color btn-lg text-white">
-                Sign up
-              </a>
+              {user ? (
+                <Link
+                  type="button"
+                  className="btn mt-2 main-color btn-lg text-white"
+                  to="/search"
+                >
+                  Explore top books
+                </Link>
+              ) : (
+                <Link
+                  className="btn mt-2 main-color btn-lg text-white"
+                  to="/login"
+                >
+                  Sign up
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -51,9 +70,19 @@ export const Heros = () => {
                 Whether it is to learn a new skill or grow within one we will be
                 able to provide the top content for you!
               </p>
-              <a href="#" className="btn main-color btn-lg text-white">
-                Sign up
-              </a>
+              {user ? (
+                <Link
+                  type="button"
+                  className="btn main-color btn-lg text-white"
+                  to="/search"
+                >
+                  Explore top books
+                </Link>
+              ) : (
+                <Link className="btn main-color btn-lg text-white" to="/login">
+                  Sign up
+                </Link>
+              )}
             </div>
           </div>
           <div className="m-2">
