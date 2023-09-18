@@ -4,8 +4,12 @@ import AuthContext from "../../context/AuthContext";
 
 interface PrivateRouteProps extends RouteProps {}
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, ...rest }) => {
-  let { user, authTokens } = useContext(AuthContext);
+export const PrivateRoute: React.FC<PrivateRouteProps> = ({
+  children,
+  ...rest
+}) => {
+  const { user, authTokens } = useContext(AuthContext);
+
   return (
     <Route {...rest}>
       {!user || !authTokens ? <Redirect to="/login" /> : children}

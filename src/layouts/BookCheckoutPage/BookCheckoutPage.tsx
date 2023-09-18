@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import BookModel from "../../models/BookModel";
-import { BOOK_ROUTES } from "../../services/apis";
+import { BOOK_ROUTES } from "../../services/Apis";
 import { SpinnerLoading } from "../Utils/SpinnerLoading";
 import { StarsReview } from "../Utils/StarsReview";
 import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";

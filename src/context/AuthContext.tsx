@@ -8,6 +8,7 @@ import UserModel from "../models/UserModel";
 interface AuthContextType {
   user: UserModel | null;
   authTokens: string | null;
+  loading: boolean;
   setAuthTokens: (tokens: string | null) => void;
   setUser: (user: UserModel | null) => void;
   logoutUser: () => void;
@@ -16,6 +17,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   authTokens: null,
+  loading: true,
   setAuthTokens: function (tokens: string | null): void {
     throw new Error("Function not implemented.");
   },
@@ -52,7 +54,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     // useEffect with empty dependency array will only be called at the initial mount
     // page refresh is treated as re-render of the existing component not initial mount
-    console.log("Authorization: ", authTokens);
     const token: string | null = localStorage.getItem("authTokens");
     if (authService.validateToken(token)) {
       setAuthTokens(token);
@@ -61,6 +62,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     // instead of storing user in localStorage
     // refresh user information after page refresh or initial mount
     const fetchUser = async () => {
+      console.log("Authorization: ", authTokens);
       const rsp = await fetch(USER_ROUTES.refreshUser, {
         method: "GET",
         headers: {
@@ -90,6 +92,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   let contextData: AuthContextType = {
     user: user,
     authTokens: authTokens,
+    loading: loading,
     setAuthTokens: setAuthTokens,
     setUser: setUser,
     logoutUser: logoutUser,
