@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import BookModel from "../../models/BookModel";
-import { BOOK_ROUTES } from "../../services/apis";
+import { BOOK_ROUTES } from "../../services/Apis";
 import { SpinnerLoading } from "../Utils/SpinnerLoading";
 import { StarsReview } from "../Utils/StarsReview";
 import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
@@ -15,7 +15,7 @@ export const BookCheckoutPage = () => {
   // triggered after the first time render, and everytime the passed-in state changes.
   useEffect(() => {
     const fetchBook = async () => {
-      const baseUrl: string = `${BOOK_ROUTES.getBookById}?bookId=${bookId}`;
+      const baseUrl: string = `${BOOK_ROUTES.GET_BOOK_INFO}?bookId=${bookId}`;
       console.log(`baseUrl: ${baseUrl}`);
       const rsp = await fetch(baseUrl);
       if (!rsp.ok) {
