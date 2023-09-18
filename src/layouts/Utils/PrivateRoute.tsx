@@ -8,11 +8,11 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({
   children,
   ...rest
 }) => {
-  const { user, authTokens } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
   return (
     <Route {...rest}>
-      {!user || !authTokens ? <Redirect to="/login" /> : children}
+      {isAuthenticated ? children : <Redirect to="/login" />}
     </Route>
   );
 };

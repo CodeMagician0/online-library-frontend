@@ -6,18 +6,18 @@ import { SpinnerLoading } from "../layouts/Utils/SpinnerLoading";
 import UserModel from "../models/UserModel";
 
 interface AuthContextType {
+  isAuthenticated: boolean;
   user: UserModel | null;
   authTokens: string | null;
-  loading: boolean;
   setAuthTokens: (tokens: string | null) => void;
   setUser: (user: UserModel | null) => void;
   logoutUser: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
+  isAuthenticated: false,
   user: null,
   authTokens: null,
-  loading: true,
   setAuthTokens: function (tokens: string | null): void {
     throw new Error("Function not implemented.");
   },
@@ -36,6 +36,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [authTokens, setAuthTokens] = useState<string | null>(null);
   const [user, setUser] = useState<UserModel | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setIsLoading] = useState(true);
 
   const history = useHistory();
@@ -43,6 +44,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const handleInvalidToken = () => {
     setUser(null);
     setAuthTokens(null);
+    setIsAuthenticated(false);
     localStorage.removeItem("authTokens");
   };
 
@@ -55,18 +57,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     // useEffect with empty dependency array will only be called at the initial mount
     // page refresh is treated as re-render of the existing component not initial mount
     const token: string | null = localStorage.getItem("authTokens");
-    if (authService.validateToken(token)) {
-      setAuthTokens(token);
-    }
-
     // instead of storing user in localStorage
-    // refresh user information after page refresh or initial mount
-    const fetchUser = async () => {
-      console.log("Authorization: ", authTokens);
+    // always get user from backend
+    const fetchUser = async (token: string) => {
       const rsp = await fetch(USER_ROUTES.refreshUser, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${authTokens}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -76,23 +73,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         const data = await rsp.json();
         const user = data.data;
         setUser(new UserModel(user.id, user.username, user.email));
+        setIsLoading(false);
+        setIsAuthenticated(true);
+        setAuthTokens(token);
       }
     };
 
-    if (authTokens) {
-      fetchUser().catch((error: any) => {
+    if (authService.validateToken(token)) {
+      fetchUser(token!).catch((error: any) => {
         handleInvalidToken();
         console.log("fetch user fail: ", error);
       });
+    } else {
+      handleInvalidToken();
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
-  }, [loading]);
+  }, []);
 
   let contextData: AuthContextType = {
+    isAuthenticated: isAuthenticated,
     user: user,
     authTokens: authTokens,
-    loading: loading,
     setAuthTokens: setAuthTokens,
     setUser: setUser,
     logoutUser: logoutUser,

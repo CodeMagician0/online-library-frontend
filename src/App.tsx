@@ -8,12 +8,10 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { BookCheckoutPage } from "./layouts/BookCheckoutPage/BookCheckoutPage";
 import { LoginPage } from "./layouts/AuthPage/LoginPage";
 import { SignupPage } from "./layouts/AuthPage/SignupPage";
-import AuthContext, { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 import { PrivateRoute } from "./layouts/Utils/PrivateRoute";
 
 export const App = () => {
-  const { loading } = useContext(AuthContext);
-
   return (
     <div
       className="d-flex flex-column min-vh-100"
@@ -38,13 +36,10 @@ export const App = () => {
             <Route path="/signup">
               <SignupPage />
             </Route>
-            {/* protected routes should be placed in this block */}
-            {loading ? null : (
-              <PrivateRoute
-                path="/checkout/:bookId"
-                component={BookCheckoutPage}
-              />
-            )}
+            <PrivateRoute
+              path="/checkout/:bookId"
+              component={BookCheckoutPage}
+            />
           </Switch>
         </div>
         <Footer />
