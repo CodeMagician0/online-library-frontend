@@ -22,7 +22,7 @@ export const SearchBookPage = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const url: string = BOOK_ROUTES.getCategories;
+      const url: string = BOOK_ROUTES.GET_CATEGORIES;
       const rsp = await fetch(url);
       if (!rsp.ok) {
         throw new Error("Something went wrong!");
@@ -43,7 +43,7 @@ export const SearchBookPage = () => {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const baseUrl: string = BOOK_ROUTES.getBooks;
+      const baseUrl: string = BOOK_ROUTES.GET_BOOKS;
       let url: string = "";
 
       if (searchUrl === "") {
@@ -110,7 +110,7 @@ export const SearchBookPage = () => {
   const searchHandleChange = () => {
     setCurrentPage(1);
 
-    const baseUrl: string = BOOK_ROUTES.searchBook;
+    const baseUrl: string = BOOK_ROUTES.SEARCH_BOOK;
     let url: string = baseUrl + `?&page=<pageNumber>&size=${booksPerPage}`;
 
     if (search !== "") {

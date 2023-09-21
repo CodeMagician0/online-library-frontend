@@ -45,7 +45,7 @@ export const SignupPage = () => {
     if (!formValid) return;
 
     const signup = async () => {
-      const { rsp, data } = await fetcher(AUTH_ROUTES.register, {
+      const { rsp, data } = await fetcher(AUTH_ROUTES.REGISTER, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

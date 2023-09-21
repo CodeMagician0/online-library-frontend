@@ -1,18 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import BookModel from "../../models/BookModel";
 import { BOOK_ROUTES } from "../../services/Apis";
 import { SpinnerLoading } from "../Utils/SpinnerLoading";
 import { StarsReview } from "../Utils/StarsReview";
 import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
+import AuthContext from "../../context/AuthContext";
 
 export const BookCheckoutPage = () => {
   const [book, setBook] = useState<BookModel>();
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(null);
-
   const bookId = window.location.pathname.split("/")[2];
   console.log(`bookId: ${bookId}`);
   // triggered after the first time render, and everytime the passed-in state changes.
+
+  const { user, authTokens } = useContext(AuthContext);
+
   useEffect(() => {
     const fetchBook = async () => {
       const baseUrl: string = `${BOOK_ROUTES.GET_BOOK_INFO}?bookId=${bookId}`;

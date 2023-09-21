@@ -4,7 +4,7 @@ import { USER_ROUTES } from "./Apis";
 class UserService {
   refreshUser = async (token: string): Promise<UserModel | null> => {
     try {
-      let rsp = await fetch(USER_ROUTES.refreshUser, {
+      let rsp = await fetch(USER_ROUTES.REFRESH_USER, {
         method: "GET",
         headers: {
           Authorization: token,

@@ -60,7 +60,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     // instead of storing user in localStorage
     // always get user from backend
     const fetchUser = async (token: string) => {
-      const rsp = await fetch(USER_ROUTES.refreshUser, {
+      const rsp = await fetch(USER_ROUTES.REFRESH_USER, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

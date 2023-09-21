@@ -42,7 +42,7 @@ export const LoginPage = () => {
     if (!formValid) return;
 
     const login = async () => {
-      const { rsp, data } = await fetcher(AUTH_ROUTES.login, {
+      const { rsp, data } = await fetcher(AUTH_ROUTES.LOGIN, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
