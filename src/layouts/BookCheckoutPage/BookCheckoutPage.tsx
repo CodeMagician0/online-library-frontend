@@ -15,7 +15,7 @@ export const BookCheckoutPage = () => {
   // triggered after the first time render, and everytime the passed-in state changes.
   useEffect(() => {
     const fetchBook = async () => {
-      const baseUrl: string = `${BOOK_ROUTES.getBookById}?bookId=${bookId}`;
+      const baseUrl: string = `${BOOK_ROUTES.GET_BOOK_INFO}?bookId=${bookId}`;
       console.log(`baseUrl: ${baseUrl}`);
       const rsp = await fetch(baseUrl);
       if (!rsp.ok) {
