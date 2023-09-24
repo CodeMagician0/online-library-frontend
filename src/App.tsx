@@ -10,6 +10,7 @@ import { LoginPage } from "./layouts/AuthPage/LoginPage";
 import { SignupPage } from "./layouts/AuthPage/SignupPage";
 import { AuthProvider } from "./context/AuthContext";
 import { PrivateRoute } from "./layouts/Utils/PrivateRoute";
+import { ReviewListPage } from "./layouts/BookCheckoutPage/ReviewListPage/ReviewListPage";
 
 export const App = () => {
   return (
@@ -29,6 +30,9 @@ export const App = () => {
             </Route>
             <Route path="/search">
               <SearchBookPage />
+            </Route>
+            <Route path="/reviewlist/:bookId">
+              <ReviewListPage />
             </Route>
             <Route path="/login">
               <LoginPage />
