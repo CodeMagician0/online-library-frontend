@@ -7,12 +7,16 @@ const useFetch = () => {
   let originalRequest = async (url: string, config: any) => {
     let rsp = await fetch(url, config);
     let data = await rsp.json();
+
     return { rsp, data };
   };
 
-  let callFetch = async (url: string, config: any) => {
+  let callFetch = async (url: string, config?: RequestInit) => {
+    if (!config) config = { method: "GET" };
+
     if (authTokens) {
       config["headers"] = {
+        ...config["headers"],
         Authorization: `Bearer ${authTokens}`,
       };
     }
